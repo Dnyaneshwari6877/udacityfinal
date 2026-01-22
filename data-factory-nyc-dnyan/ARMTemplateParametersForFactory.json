@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "data-factory-nyc-dnyan"
+		},
+		"LS_DataLake_Payroll_accountKey": {
+			"value": ""
+		},
+		"LS_SQL_NYCPayRoll_password": {
+			"value": ""
+		},
+		"LS_Synapse_NYCPayRoll_password": {
+			"value": ""
+		},
+		"LS_DataLake_Payroll_properties_typeProperties_url": {
+			"value": "https://adlsnycpayrolldnyanpand.dfs.core.windows.net/"
+		},
+		"LS_SQL_NYCPayRoll_properties_typeProperties_server": {
+			"value": "azure-sql-server-dnyan.database.windows.net"
+		},
+		"LS_SQL_NYCPayRoll_properties_typeProperties_database": {
+			"value": "azure-sql-database-dnayn"
+		},
+		"LS_SQL_NYCPayRoll_properties_typeProperties_userName": {
+			"value": "Dnyan"
+		},
+		"LS_Synapse_NYCPayRoll_properties_typeProperties_server": {
+			"value": "azure-synapse-dnyan.sql.azuresynapse.net"
+		},
+		"LS_Synapse_NYCPayRoll_properties_typeProperties_database": {
+			"value": "master"
+		},
+		"LS_Synapse_NYCPayRoll_properties_typeProperties_userName": {
+			"value": "Dnyan"
+		}
+	}
+}
