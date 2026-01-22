@@ -1,0 +1,17 @@
+{
+	"name": "LS_SQL_NYCPayRoll",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "azure-sql-server-dnyan.database.windows.net",
+			"database": "azure-sql-database-dnayn",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "Dnyan",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEM4Q0ZCMzVBLUUwNTUtNEE5Ny04RURGLUZFOUJGQzg3RERGNV8wMDNlNWU2NS00YjYyLTRiNTMtOTE2ZS1mNTMwYjc3NTY1YzYiDQp9"
+		}
+	}
+}
