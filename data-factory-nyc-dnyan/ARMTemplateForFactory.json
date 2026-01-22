@@ -53,7 +53,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/Pipeline_NYC_Payroll')]",
+			"name": "[concat(parameters('factoryName'), '/Pipline_NYC_Payroll')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -89,7 +89,7 @@
 						}
 					},
 					{
-						"name": "Load_TitleMaster",
+						"name": "Load_TimerMaster",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -149,15 +149,9 @@
 						}
 					},
 					{
-						"name": "Load_Payroll2021",
+						"name": "Load_PayRoll2020",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
-							{
-								"activity": "Load_AgencyMaster",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
 							{
 								"activity": "Load_EmpMaster",
 								"dependencyConditions": [
@@ -165,56 +159,13 @@
 								]
 							},
 							{
-								"activity": "Load_TitleMaster",
+								"activity": "Load_TimerMaster",
 								"dependencyConditions": [
 									"Succeeded"
 								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "DF_LoadPayRoll2021",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"SourcePayRoll2021": {},
-									"SinkLoadPayRoll2021SQL": {}
-								}
 							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "Load_Payroll2020",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
 							{
 								"activity": "Load_AgencyMaster",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Load_EmpMaster",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Load_TitleMaster",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -247,17 +198,66 @@
 						}
 					},
 					{
-						"name": "Aggregate_Payroll",
+						"name": "Load_PayRoll2021",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
-								"activity": "Load_Payroll2020",
+								"activity": "Load_EmpMaster",
 								"dependencyConditions": [
 									"Succeeded"
 								]
 							},
 							{
-								"activity": "Load_Payroll2021",
+								"activity": "Load_TimerMaster",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Load_AgencyMaster",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_LoadPayRoll2021",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"SourcePayRoll2021": {},
+									"SinkLoadPayRoll2021SQL": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "Aggregate_PayRoll",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Load_PayRoll2020",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Load_PayRoll2021",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -276,10 +276,7 @@
 								"referenceName": "DF_PayRollSummary",
 								"type": "DataFlowReference",
 								"parameters": {
-									"dataflow_param_fiscalyear": {
-										"value": "@pipeline().globalParameters.dataflow_param_fiscalyear",
-										"type": "Expression"
-									}
+									"dataflow_param_fiscalyear": 2020
 								},
 								"datasetParameters": {
 									"Source2020": {},
@@ -300,15 +297,14 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"annotations": [],
-				"lastPublishTime": "2026-01-22T07:25:57Z"
+				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/DF_LoadEmpMaster')]",
 				"[concat(variables('factoryId'), '/dataflows/DF_LoadTitleMaster')]",
 				"[concat(variables('factoryId'), '/dataflows/DF_LoadAgencyMaster')]",
-				"[concat(variables('factoryId'), '/dataflows/DF_LoadPayRoll2021')]",
 				"[concat(variables('factoryId'), '/dataflows/DF_LoadPayRoll2020')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_LoadPayRoll2021')]",
 				"[concat(variables('factoryId'), '/dataflows/DF_PayRollSummary')]"
 			]
 		},
